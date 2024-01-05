@@ -11,7 +11,7 @@ This is a simple meme search engine that allows users to search for memes based 
 
 1. Clone or download the repository.
 
-2. Open `index.html` in your preferred web browser.
+2. Open `memesearch.html` in your preferred web browser.
 
 3. Enter a search term for the memes you want to see in the input field.
 
