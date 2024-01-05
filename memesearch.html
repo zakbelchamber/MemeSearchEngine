@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Search Engine</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Add your CSS styles here */
+    body {
+      padding-top: 50px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center mb-4">Meme Search Engine</h1>
+    <div class="input-group mb-3">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search for memes...">
+      <div class="input-group-append">
+        <button class="btn btn-primary" onclick="searchMemes()">Search</button>
+      </div>
+    </div>
+    <div id="memeContainer" class="row"></div>
+  </div>
+
+  <script>
+    function searchMemes() {
+      const searchQuery = document.getElementById('searchInput').value.trim();
+      const apiUrl = `https://meme-api.com/gimme/${searchQuery}`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.url) {
+            const memes = [{ url: data.url, name: searchQuery }];
+            displayMemes(memes);
+          } else {
+            alert('No memes found for this search term.');
+          }
+        })
+        .catch(error => console.log(error));
+    }
+
+    function displayMemes(memes) {
+      const memeContainer = document.getElementById('memeContainer');
+      memeContainer.innerHTML = ''; // Clear previous results
+
+      memes.forEach(meme => {
+        const memeCard = document.createElement('div');
+        memeCard.classList.add('col-md-4', 'mb-3');
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const cardBody = document.createElement('div');
+        cardBody.classList.add('card-body');
+
+        const memeImage = document.createElement('img');
+        memeImage.classList.add('card-img-top');
+        memeImage.src = meme.url; // Using the 'url' property for meme image
+
+        const memeTitle = document.createElement('h5');
+        memeTitle.classList.add('card-title');
+        memeTitle.textContent = meme.name; // Using the 'name' property for meme name
+
+        cardBody.appendChild(memeImage);
+        cardBody.appendChild(memeTitle);
+        card.appendChild(cardBody);
+        memeCard.appendChild(card);
+        memeContainer.appendChild(memeCard);
+      });
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
